@@ -4,13 +4,13 @@ from PyQt6.QtWidgets import (
 )
 from PyQt6.QtCore import Qt
 
-class Sum(QWidget):
+class Sub(QWidget):
     def __init__(self):
         super().__init__()
-        self.generate_sum()
+        self.generate_sub()
 
-    def generate_sum(self):
-        self.setWindowTitle('Adding between matrix')
+    def generate_sub(self):
+        self.setWindowTitle('Subtraction between matrix')
         self.resize(800, 600)  
         self.generate_window()
         self.show()
@@ -74,7 +74,7 @@ class Sum(QWidget):
         self.up.addWidget(self.divider)
         self.up.addLayout(self.matrix2)
 
-        self.calculate_button = QPushButton('Calculate Sum')
+        self.calculate_button = QPushButton('Calculate Subtraction')
         self.calculate_button.clicked.connect(self.calculate_sum)
 
         self.principal.addLayout(self.up)
@@ -103,7 +103,7 @@ class Sum(QWidget):
             for j in range(cols):
                 value1 = int(self.matrix1_inputs[i][j].text())
                 value2 = int(self.matrix2_inputs[i][j].text())
-                result = value1 + value2
+                result = value1 - value2
 
                 result_label = QLabel(str(result))
                 result_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
@@ -111,12 +111,12 @@ class Sum(QWidget):
                 self.result_matrix.addWidget(result_label, i, j)
 
                 # Add step-by-step explanation
-                step_label = QLabel(f"({i}, {j}): {value1} + {value2} = {result}")
+                step_label = QLabel(f"({i}, {j}): {value1} - {value2} = {result}")
                 explanation_layout.addWidget(step_label)
 
         self.principal.addWidget(scroll_area)
 
     def clear(self):
         self.close()
-        self.new = Sum()
+        self.new = Sub()
         self.new.show()

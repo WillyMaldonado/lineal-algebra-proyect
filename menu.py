@@ -1,7 +1,7 @@
 from PyQt6.QtWidgets import QPushButton, QDialog, QLabel, QVBoxLayout, QHBoxLayout,QGridLayout, QWidget
-from Operation_matrix import sum
 from Operation_matrix import operation_menu
 from markov import MatrixApp
+from Operation_matrix.multiply import Multiply
 
 
 class Menu(QWidget):
@@ -26,7 +26,7 @@ class Menu(QWidget):
         self.button_vector_op = QPushButton("Operation between vectors")
         #Add functionality to the buttons
         self.button_matrix_op.clicked.connect(self.operationMenu)
-        # self.button_inv_matrix.clicked.connect()
+        # self.button_inv_matrix.clicked.connect(self.Multiply)
         # self.button_det_matrix.clicked.connect()
         # self.button_range_matrix.clicked.connect()
         # self.button_encrypt_matrix.clicked.connect()
@@ -51,3 +51,4 @@ class Menu(QWidget):
     def Markov(self):
         self.markov_view = MatrixApp()
         self.markov_view.show()
+
