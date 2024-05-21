@@ -6,4 +6,5 @@ def main():
     app = QApplication(sys.argv)
     login = Menu()
     sys.exit(app.exec())
+
 main()

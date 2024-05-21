@@ -1,4 +1,7 @@
 from PyQt6.QtWidgets import QPushButton, QDialog, QLabel, QVBoxLayout, QHBoxLayout,QGridLayout, QWidget
+from Operation_matrix import sum
+from Operation_matrix import operation_menu
+from markov import MatrixApp
 
 
 class Menu(QWidget):
@@ -7,8 +10,8 @@ class Menu(QWidget):
         self.generate_menu()
 
     def generate_menu(self):
-        # self.setGeometry(100,100, 600,600)
         self.setWindowTitle("Lineal algebra menu")
+        self.resize(800,600)
         self.generate_window()
         self.show()
 
@@ -22,13 +25,13 @@ class Menu(QWidget):
         self.button_markov = QPushButton("Markov chain")
         self.button_vector_op = QPushButton("Operation between vectors")
         #Add functionality to the buttons
-        self.button_det_matrix.clicked.connect()
-        self.button_inv_matrix.clicked.connect()
-        self.button_det_matrix.clicked.connect()
-        self.button_range_matrix.clicked.connect()
-        self.button_encrypt_matrix.clicked.connect()
-        self.button_markov.clicked.connect()
-        self.button_vector_op.clicked.connect()
+        self.button_matrix_op.clicked.connect(self.operationMenu)
+        # self.button_inv_matrix.clicked.connect()
+        # self.button_det_matrix.clicked.connect()
+        # self.button_range_matrix.clicked.connect()
+        # self.button_encrypt_matrix.clicked.connect()
+        self.button_markov.clicked.connect(self.Markov)
+        # self.button_vector_op.clicked.connect()
 
         self.layout = QGridLayout()
         self.layout.addWidget(self.button_matrix_op,0,0)
@@ -41,5 +44,10 @@ class Menu(QWidget):
 
         self.setLayout(self.layout)
 
-    def hello_world(self):
-        print("hello world")
+    def operationMenu(self):
+        self.menu_view = operation_menu.OperationMenu()
+        self.menu_view.show()
+
+    def Markov(self):
+        self.markov_view = MatrixApp()
+        self.markov_view.show()
