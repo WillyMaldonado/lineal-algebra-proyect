@@ -77,7 +77,7 @@ class Multiply(QWidget):
             for i in range(rows1):
                 rows_inputs1 = []
                 for j in range(cols1):
-                    input1 = QLineEdit()
+                    input1 = QLineEdit('0')
                     self.matrix1.addWidget(input1, i, j)
                     rows_inputs1.append(input1)
                 self.matrix1_inputs.append(rows_inputs1)
@@ -85,7 +85,7 @@ class Multiply(QWidget):
             for i in range(rows2):
                 rows_inputs2 = []
                 for j in range(cols2):
-                    input2 = QLineEdit()
+                    input2 = QLineEdit('0')
                     self.matrix2.addWidget(input2, i, j)
                     rows_inputs2.append(input2)
                 self.matrix2_inputs.append(rows_inputs2)

@@ -56,8 +56,8 @@ class Sub(QWidget):
             row_inputs1 = []
             row_inputs2 = []
             for j in range(cols):
-                input1 = QLineEdit()
-                input2 = QLineEdit()
+                input1 = QLineEdit('0')
+                input2 = QLineEdit('0')
                 self.matrix1.addWidget(input1, i, j)
                 self.matrix2.addWidget(input2, i, j)
                 row_inputs1.append(input1)

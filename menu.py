@@ -2,6 +2,7 @@ from PyQt6.QtWidgets import QPushButton, QDialog, QLabel, QVBoxLayout, QHBoxLayo
 from Operation_matrix import operation_menu
 from markov import MatrixApp
 from Operation_matrix.multiply import Multiply
+from determinant import Determinant
 
 
 class Menu(QWidget):
@@ -27,7 +28,7 @@ class Menu(QWidget):
         #Add functionality to the buttons
         self.button_matrix_op.clicked.connect(self.operationMenu)
         # self.button_inv_matrix.clicked.connect(self.Multiply)
-        # self.button_det_matrix.clicked.connect()
+        self.button_det_matrix.clicked.connect(self.Det)
         # self.button_range_matrix.clicked.connect()
         # self.button_encrypt_matrix.clicked.connect()
         self.button_markov.clicked.connect(self.Markov)
@@ -51,4 +52,8 @@ class Menu(QWidget):
     def Markov(self):
         self.markov_view = MatrixApp()
         self.markov_view.show()
+
+    def Det(self):
+        self.det_view = Determinant()
+        self.det_view.show()
 
