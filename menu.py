@@ -1,9 +1,9 @@
 from PyQt6.QtWidgets import QPushButton, QDialog, QLabel, QVBoxLayout, QHBoxLayout,QGridLayout, QWidget
 from Operation_matrix import operation_menu
 from markov import MatrixApp
-from Operation_matrix.multiply import Multiply
 from determinant import Determinant
 from inverse import Inverse
+from rank import Rank
 
 
 class Menu(QWidget):
@@ -30,7 +30,7 @@ class Menu(QWidget):
         self.button_matrix_op.clicked.connect(self.operationMenu)
         self.button_inv_matrix.clicked.connect(self.Inv)
         self.button_det_matrix.clicked.connect(self.Det)
-        # self.button_range_matrix.clicked.connect()
+        self.button_range_matrix.clicked.connect(self.Ran)
         # self.button_encrypt_matrix.clicked.connect()
         self.button_markov.clicked.connect(self.Markov)
         # self.button_vector_op.clicked.connect()
@@ -61,4 +61,7 @@ class Menu(QWidget):
     def Inv(self):
         self.inv_view = Inverse()
         self.inv_view.show()
-
+        
+    def Ran(self):
+        self.rank_view = Rank()
+        self.rank_view.show()

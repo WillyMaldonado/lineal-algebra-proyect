@@ -99,7 +99,7 @@ class Determinant(QWidget):
         original_matrix = matrix.copy()
 
         steps = []
-        step_count = 1  # Initialize step counter
+        step_count = 1  
         steps.append(f"Initial matrix:\n{self.matrix_to_string(matrix)}\n")
         for i in range(rows):
             for j in range(cols):
@@ -107,12 +107,12 @@ class Determinant(QWidget):
                     factor = matrix[j][i] / matrix[i][i]
                     steps.append(f"Step {step_count}: subtract {factor} * row {i+1} from row {j+1}")
                     matrix[j] -= factor * matrix[i]
-                    step_count += 1  # Increment step counter
+                    step_count += 1  
                     steps.append(f"Matrix after step {step_count}:\n{self.matrix_to_string(matrix)}\n")
         determinant = np.prod(np.diag(matrix))
         steps.append(f"Step {step_count + 1}: Multiply the diagonal elements to get the determinant")
         steps.append(f"The determinant is: {determinant}")
-        step_count += 2  # Increment step counter for the final step
+        step_count += 2  
 
         steps_text = "\n".join(steps)
         self.steps_label.setText(steps_text)
