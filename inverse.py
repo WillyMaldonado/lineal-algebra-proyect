@@ -2,13 +2,13 @@ from PyQt6.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QWidget, QLi
 import numpy as np
 from fractions import Fraction
 
-class Determinant(QWidget):
+class Inverse(QWidget):
     def __init__(self):
         super().__init__()
         self.generate_determinant()
 
     def generate_determinant(self):
-        self.setWindowTitle('Determinant of a matrix')
+        self.setWindowTitle('Inverse of a matrix')
         self.resize(800, 600)
         self.generate_window()
         self.show()
@@ -35,17 +35,15 @@ class Determinant(QWidget):
         self.principal.addLayout(input_layout)
 
         self.result_label = QLabel()
-        self.principal.addWidget(self.result_label)
+        self.result_label.setWordWrap(True)
 
         self.scroll_area = QScrollArea()
         self.scroll_area.setWidgetResizable(True)
         self.scroll_content = QWidget()
         self.scroll_layout = QVBoxLayout(self.scroll_content)
-        self.steps_label = QLabel()
-        self.steps_label.setWordWrap(True)
-        self.scroll_layout.addWidget(self.steps_label)
         self.scroll_area.setWidget(self.scroll_content)
-
+        self.scroll_layout.addWidget(self.result_label)
+        
         self.principal.addWidget(self.scroll_area)
 
     def create_matrices(self):
@@ -75,14 +73,14 @@ class Determinant(QWidget):
         self.up.addWidget(self.divider)
         self.up.addLayout(self.matrix2)
 
-        self.calculate_button = QPushButton('Calculate determinant')
-        self.calculate_button.clicked.connect(self.calculate_determinant)
+        self.calculate_button = QPushButton('Calculate inverse')
+        self.calculate_button.clicked.connect(self.calculate_inverse)
 
         self.principal.addLayout(self.up)
         self.principal.addWidget(self.calculate_button)
         self.principal.addLayout(self.result_matrix)
 
-    def calculate_determinant(self):
+    def calculate_inverse(self):
         rows = self.row_input.value()
         cols = rows
 
@@ -90,43 +88,71 @@ class Determinant(QWidget):
         for i in range(rows):
             row_values = []
             for j in range(cols):
-                value_str = self.matrix1_inputs[i][j].text()
-                value = Fraction(value_str)
+                value = float(Fraction(self.matrix1_inputs[i][j].text()))
                 row_values.append(value)
             matrix_values.append(row_values)
 
         matrix = np.array(matrix_values)
-        original_matrix = matrix.copy()
+        identity = np.identity(rows)
 
-        steps = []
-        step_count = 1  # Initialize step counter
-        steps.append(f"Initial matrix:\n{self.matrix_to_string(matrix)}\n")
-        for i in range(rows):
-            for j in range(cols):
-                if i != j:
-                    factor = matrix[j][i] / matrix[i][i]
-                    steps.append(f"Step {step_count}: subtract {factor} * row {i+1} from row {j+1}")
+        try:
+            steps_text = "Steps to calculate the inverse matrix:\n\n"
+            step_count = 1
+
+            for i in range(rows):
+                pivot = matrix[i][i]
+                matrix[i] /= pivot
+                identity[i] /= pivot
+
+                steps_text += f"Step {step_count}: Make pivot of row {i+1} equal to 1 (Divide row {i+1} by {pivot})\n"
+                steps_text += self.format_matrices_side_by_side(matrix, identity) + "\n\n"
+                step_count += 1
+
+                for j in range(i + 1, rows):
+                    factor = matrix[j][i]
                     matrix[j] -= factor * matrix[i]
-                    step_count += 1  # Increment step counter
-                    steps.append(f"Matrix after step {step_count}:\n{self.matrix_to_string(matrix)}\n")
-        determinant = np.prod(np.diag(matrix))
-        steps.append(f"Step {step_count + 1}: Multiply the diagonal elements to get the determinant")
-        steps.append(f"The determinant is: {determinant}")
-        step_count += 2  # Increment step counter for the final step
+                    identity[j] -= factor * identity[i]
 
-        steps_text = "\n".join(steps)
-        self.steps_label.setText(steps_text)
+                    steps_text += f"Step {step_count}: Make elements below pivot in column {i+1} equal to 0 (Subtract {factor} * row {i+1} from row {j+1})\n"
+                    steps_text += self.format_matrices_side_by_side(matrix, identity) + "\n\n"
+                    step_count += 1
 
-        self.result_label.setText(f"The determinant is: {determinant}")
+            for i in range(rows - 1, -1, -1):
+                for j in range(i - 1, -1, -1):
+                    factor = matrix[j][i]
+                    matrix[j] -= factor * matrix[i]
+                    identity[j] -= factor * identity[i]
+
+                    steps_text += f"Step {step_count}: Make elements above pivot in column {i+1} equal to 0 (Subtract {factor} * row {i+1} from row {j+1})\n"
+                    steps_text += self.format_matrices_side_by_side(matrix, identity) + "\n\n"
+                    step_count += 1
+
+            inverse_matrix = identity
+
+            steps_text += "The inverse matrix is obtained in the identity matrix:\n"
+            steps_text += self.matrix_to_string(inverse_matrix)
+
+            self.result_label.setText(steps_text)
+
+        except np.linalg.LinAlgError:
+            self.result_label.setText("An error occurred while calculating the inverse matrix.")
 
     def matrix_to_string(self, matrix):
         matrix_str = ""
         for row in matrix:
-            row_str = " | ".join(str(Fraction(element).limit_denominator()) for element in row)
+            row_str = " ".join(str(Fraction(x).limit_denominator()) for x in row)
             matrix_str += row_str + "\n"
+        return matrix_str
+
+    def format_matrices_side_by_side(self, matrix1, matrix2):
+        matrix_str = ""
+        for row1, row2 in zip(matrix1, matrix2):
+            row1_str = " ".join(str(Fraction(x).limit_denominator()) for x in row1)
+            row2_str = " ".join(str(Fraction(x).limit_denominator()) for x in row2)
+            matrix_str += f"{row1_str} | {row2_str}\n"
         return matrix_str
 
     def clear(self):
         self.close()
-        self.new = Determinant()
+        self.new = Inverse()
         self.new.show()

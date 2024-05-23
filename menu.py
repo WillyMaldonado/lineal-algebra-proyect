@@ -3,6 +3,7 @@ from Operation_matrix import operation_menu
 from markov import MatrixApp
 from Operation_matrix.multiply import Multiply
 from determinant import Determinant
+from inverse import Inverse
 
 
 class Menu(QWidget):
@@ -27,7 +28,7 @@ class Menu(QWidget):
         self.button_vector_op = QPushButton("Operation between vectors")
         #Add functionality to the buttons
         self.button_matrix_op.clicked.connect(self.operationMenu)
-        # self.button_inv_matrix.clicked.connect(self.Multiply)
+        self.button_inv_matrix.clicked.connect(self.Inv)
         self.button_det_matrix.clicked.connect(self.Det)
         # self.button_range_matrix.clicked.connect()
         # self.button_encrypt_matrix.clicked.connect()
@@ -56,4 +57,8 @@ class Menu(QWidget):
     def Det(self):
         self.det_view = Determinant()
         self.det_view.show()
+
+    def Inv(self):
+        self.inv_view = Inverse()
+        self.inv_view.show()
 
