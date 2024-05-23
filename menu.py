@@ -1,9 +1,11 @@
-from PyQt6.QtWidgets import QPushButton, QDialog, QLabel, QVBoxLayout, QHBoxLayout,QGridLayout, QWidget
+from PyQt6.QtWidgets import QPushButton, QDialog, QLabel, QVBoxLayout, QHBoxLayout,QGridLayout, QWidget, QApplication
 from Operation_matrix import operation_menu
 from markov import MatrixApp
 from determinant import Determinant
 from inverse import Inverse
 from rank import Rank
+from vectors.vectors import Vectors
+from encrypt import CryptoApp
 
 
 class Menu(QWidget):
@@ -31,9 +33,9 @@ class Menu(QWidget):
         self.button_inv_matrix.clicked.connect(self.Inv)
         self.button_det_matrix.clicked.connect(self.Det)
         self.button_range_matrix.clicked.connect(self.Ran)
-        # self.button_encrypt_matrix.clicked.connect()
+        self.button_encrypt_matrix.clicked.connect(self.crypt)
         self.button_markov.clicked.connect(self.Markov)
-        # self.button_vector_op.clicked.connect()
+        self.button_vector_op.clicked.connect(self.vector)
 
         self.layout = QGridLayout()
         self.layout.addWidget(self.button_matrix_op,0,0)
@@ -65,3 +67,11 @@ class Menu(QWidget):
     def Ran(self):
         self.rank_view = Rank()
         self.rank_view.show()
+
+    def vector(self):
+        self.vector_view = Vectors()
+        self.vector_view.show()
+
+    def crypt(self):
+        self.crypt_view = CryptoApp()
+        self.crypt_view.show()
